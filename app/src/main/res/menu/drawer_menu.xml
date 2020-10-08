@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+        android:id="@+id/main"
+        android:icon="@drawable/menu_home"
+        android:title="@string/info_fr_main"/>
+        <item
+            android:id="@+id/favorite"
+            android:icon="@drawable/ic_loyalty_black"
+            android:title="@string/info_fr_fav"/>
+        <item
+            android:id="@+id/popular"
+            android:icon="@drawable/ic_thumb_up"
+            android:title="@string/info_fr_pop"/>
+        <item
+            android:id="@+id/movie"
+            android:icon="@drawable/menu_movies"
+            android:title="@string/info_fr_soon"/>
+        <item
+        android:id="@+id/top"
+        android:icon="@drawable/menu_star"
+        android:title="@string/info_fr_top"/>
+        <item
+            android:id="@+id/serials"
+            android:icon="@drawable/menu_serials"
+            android:title="@string/info_fr_series"/>
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/menu_info"
+            android:title="@string/info_aboutfr"/>
+
+    </group>
+</menu>

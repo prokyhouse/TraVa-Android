@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            style="@style/Text.Item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/in_theatre"
+            android:paddingBottom="0dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:textSize="24sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_in_theatre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            tools:layout_height="128dp"
+            tools:listitem="@layout/movie_preview"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Text.Item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/random_film"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:textSize="24sp" />
+
+        <include
+            layout="@layout/movie_horizontal"/>
+
+        <TextView
+            style="@style/Text.Item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popular"
+            android:paddingBottom="0dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:textSize="24sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_height="128dp"
+            android:layout_margin="2dp"
+            tools:listitem="@layout/movie_horizontal_preview"/>
+    </LinearLayout>
+</ScrollView>

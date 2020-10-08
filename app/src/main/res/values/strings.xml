@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">TraVa</string>
+
+    <!-- Navigation Drawer-->
+    <string name="info_fr_pop">Популярное</string>
+    <string name="info_fr_soon">Скоро</string>
+    <string name="info_fr_top">Лучшие фильмы</string>
+    <string name="info_fr_series">Сериалы</string>
+    <string name="info_aboutfr">О Траве</string>
+
+    <string name="text_header">Text</string>
+
+    <string name="header_about">About</string>
+
+    <string name="lorem">Что-то здесь как-то пусто. Зайди в другой раз :)</string>
+
+    <string name="App_ver">Версия 1.0</string>
+    <string name="App_ver_header">О приложении</string>
+
+    <string name="App_about">
+		ТраВа (TraVa) - это спасательный круг для тех, кто не умеет плавать в море фильмов и сериалов.\n\n
+
+		Пока приложение находится на стадии разработки, но подождите, мы Вас еще удивим!
+
+		\n\n Enjoy
+	</string>
+
+
+    <string name="open_drawer">open</string>
+    <string name="close_drawer">close</string>
+    <string name="loading">Загрузка</string>
+    <string name="best">Лучшее</string>
+    <string name="popular">Популярное</string>
+    <string name="random_film">TraVa рекомендует</string>
+    <string name="like">Like</string>
+    <string name="in_theatre">Сейчас в кино</string>
+    <string name="info_fr_main">Главная</string>
+    <string name="info_fr_fav">Любимое</string>
+</resources>

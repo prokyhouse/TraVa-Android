@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <dimen name="imageview_width">100dp</dimen>
+    <dimen name="imageview_height">150dp</dimen>
+    <dimen name="navigation_drawer_width">280dp</dimen>
+</resources>
