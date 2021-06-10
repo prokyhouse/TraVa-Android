@@ -1,16 +1,17 @@
 package ru.myitschool.travamd.fragments;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,10 +22,12 @@ import java.net.URL;
 
 import ru.myitschool.travamd.R;
 import ru.myitschool.travamd.adapters.MovieHorizontalAdapter;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
 import ru.myitschool.travamd.utils.Database;
 import ru.myitschool.travamd.utils.Networking;
+import ru.myitschool.travamd.utils.Utils;
 
 public class PopularFragment extends Fragment {
     private int mPage = 0;
@@ -48,14 +51,14 @@ public class PopularFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMovieHorizontalAdapter = new MovieHorizontalAdapter(getActivity(),null,null);
+        mMovieHorizontalAdapter = new MovieHorizontalAdapter(null, null, mChangeFragmentListener);
         recyclerView.setAdapter(mMovieHorizontalAdapter);
         loadMovie();
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0){
+                if (dy > 0) {
 
                     int visibleItemCount = linearLayoutManager.getChildCount();
                     int totalItemCount = linearLayoutManager.getItemCount();
@@ -83,7 +86,7 @@ public class PopularFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mMovieHorizontalAdapter=null;
+        mMovieHorizontalAdapter = null;
     }
 
     private void showProgressBar() {
@@ -130,18 +133,18 @@ public class PopularFragment extends Fragment {
                     publishProgress(movieQueried);
                 }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Movie... values) {
-            mMovieHorizontalAdapter.add(values[0], Database.isMovieExist(getContext(),values[0].getMovieId()));
+            mMovieHorizontalAdapter.add(values[0], Database.isMovieExist(getContext(), values[0].getMovieId()));
         }
 
         @Override
@@ -150,4 +153,9 @@ public class PopularFragment extends Fragment {
             mIsLoading = true;
         }
     }
+
+    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+            getActivity().getSupportFragmentManager(),
+            fragment
+    );
 }

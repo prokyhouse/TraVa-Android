@@ -1,14 +1,15 @@
 package ru.myitschool.travamd.fragments;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,10 +18,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
-import ru.myitschool.travamd.adapters.Movie_adapter;
+import ru.myitschool.travamd.adapters.MovieAdapter;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
 import ru.myitschool.travamd.utils.Networking;
+import ru.myitschool.travamd.utils.Utils;
 
 public class UpcomingFragment extends Fragment {
 
@@ -30,7 +33,7 @@ public class UpcomingFragment extends Fragment {
     int cardNumber;
     private View v;
     private RecyclerView recyclerView;
-    private Movie_adapter mMovieAdapter;
+    private MovieAdapter mMovieAdapter;
     private ArrayList<Movie> movieList = new ArrayList<>();
     private ProgressBar progressBar;
     private boolean loading = true;
@@ -42,7 +45,7 @@ public class UpcomingFragment extends Fragment {
         cardNumber = 2;
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        mMovieAdapter = new Movie_adapter(getActivity(),movieList,  cardNumber);
+        mMovieAdapter = new MovieAdapter(movieList, cardNumber, mChangeFragmentListener);
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getActivity(), cardNumber);
 
@@ -58,8 +61,7 @@ public class UpcomingFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0)
-                {
+                if (dy > 0) {
                     visibleItemCount = layoutManager.getChildCount();
                     totalItemCount = layoutManager.getItemCount();
                     pastVisiblesItems = ((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
@@ -145,4 +147,9 @@ public class UpcomingFragment extends Fragment {
             loading = true;
         }
     }
+
+    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+            getActivity().getSupportFragmentManager(),
+            fragment
+    );
 }

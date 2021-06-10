@@ -1,16 +1,17 @@
 package ru.myitschool.travamd.fragments;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,9 +21,11 @@ import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
 import ru.myitschool.travamd.adapters.MovieShortAdapter;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
 import ru.myitschool.travamd.utils.Networking;
+import ru.myitschool.travamd.utils.Utils;
 
 public class TopFragment extends Fragment {
 
@@ -31,7 +34,6 @@ public class TopFragment extends Fragment {
     private MovieShortAdapter mMovieShortAdapter;
     private ProgressBar mProgressBar;
     private boolean mIsLoading = true;
-
 
 
     @Override
@@ -45,19 +47,19 @@ public class TopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(),SPAN_COUNT);
+        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), SPAN_COUNT);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMovieShortAdapter = new MovieShortAdapter(getActivity(),new ArrayList<>());
+        mMovieShortAdapter = new MovieShortAdapter(new ArrayList<>(), mChangeFragmentListener);
         recyclerView.setAdapter(mMovieShortAdapter);
         loadMovie();
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0){
+                if (dy > 0) {
 
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
@@ -79,7 +81,7 @@ public class TopFragment extends Fragment {
     //Загрузка страницы
     private void loadMovie() {
         mPage++;
-        new MovieQueryTask().execute(Constants.TOP_RATED_URL, mPage+"");
+        new MovieQueryTask().execute(Constants.TOP_RATED_URL, mPage + "");
     }
 
     private void showProgressBar() {
@@ -144,4 +146,9 @@ public class TopFragment extends Fragment {
             mIsLoading = true;
         }
     }
+
+    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+            getActivity().getSupportFragmentManager(),
+            fragment
+    );
 }

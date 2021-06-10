@@ -1,21 +1,21 @@
 package ru.myitschool.travamd.adapters;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.fragments.ActorFragment;
 import ru.myitschool.travamd.models.Actor;
 import ru.myitschool.travamd.utils.Constants;
@@ -25,15 +25,13 @@ import ru.myitschool.travamd.utils.Constants;
  */
 
 public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.AdapterViewHolder> {
-
-    private ArrayList<Actor> actorList = new ArrayList<Actor>();
-    private Context context;
+    private final OnChangeFragmentListener mChangeFragmentListener;
+    private ArrayList<Actor> actorList;
     private View view;
 
-    public ActorAdapter(ArrayList<Actor> actorList, Context context) {
+    public ActorAdapter(ArrayList<Actor> actorList, OnChangeFragmentListener changeFragmentListener) {
         this.actorList = actorList;
-        this.context = context;
-
+        mChangeFragmentListener = changeFragmentListener;
     }
 
     @Override
@@ -46,26 +44,45 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.AdapterViewH
 
     @Override
     public void onBindViewHolder(ActorAdapter.AdapterViewHolder holder, int position) {
+        holder.bind(actorList.get(position));
+    }
 
-        final Actor actor = actorList.get(position);
+    @Override
+    public int getItemCount() {
+        return actorList.size();
+    }
 
-        //Вывод имени Актера и его фотографии.
-        holder.actorName.setText(actor.getActorName());
+    public class AdapterViewHolder extends RecyclerView.ViewHolder {
 
-        Picasso.with(context)
-                .load(Constants.COVER_W780_URL + actor.getActorProfilePath())
-                .resize(context.getResources().getDimensionPixelSize(R.dimen.imageview_width),
-                        context.getResources().getDimensionPixelSize(R.dimen.imageview_height))
-                .centerCrop()
-                .into(holder.cover_image);
+        private final ImageView cover_image;
+        private final TextView actorName;
+        private final CardView actorCard;
 
-        //Обработка нажатия на карточку Актера.
-        holder.actorCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        public AdapterViewHolder(View view) {
+            super(view);
 
+            //Элементы карточки Актера.
+            actorCard = (CardView) view.findViewById(R.id.actor_card);
+            cover_image = (ImageView) view.findViewById(R.id.actor_cover);
+            actorName = (TextView) view.findViewById(R.id.actor_name);
+        }
+
+        public void bind(final Actor actor) {
+            //Вывод имени Актера и его фотографии.
+            actorName.setText(actor.getActorName());
+
+            int width = itemView.getResources().getDimensionPixelSize(R.dimen.imageview_width);
+            int height = itemView.getResources().getDimensionPixelSize(R.dimen.imageview_height);
+
+            Picasso.get()
+                    .load(Constants.COVER_W780_URL + actor.getActorProfilePath())
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(cover_image);
+
+            //Обработка нажатия на карточку Актера.
+            actorCard.setOnClickListener(v -> {
                 //Подготовка к переходу в фрагмент ActorFragment.
-                AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 ActorFragment rFragment = new ActorFragment();
 
                 //Передача имеющихся данных между фрагментами для сохранения трафика.
@@ -77,37 +94,8 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.AdapterViewH
                 rFragment.setArguments(bundle);
 
                 //Переход в ActorFragment.
-                activity.getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_container, rFragment)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return actorList.size();
-    }
-
-    public class AdapterViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView cover_image;
-        TextView actorName;
-        CardView actorCard;
-
-        public AdapterViewHolder(View view) {
-            super(view);
-
-            //Элементы карточки Актера.
-            actorCard = (CardView) view.findViewById(R.id.actor_card);
-            cover_image = (ImageView) view.findViewById(R.id.actor_cover);
-            actorName = (TextView) view.findViewById(R.id.actor_name);
-
-            context = view.getContext();
+                mChangeFragmentListener.onChange(rFragment);
+            });
         }
     }
 }

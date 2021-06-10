@@ -16,7 +16,7 @@ public class Database extends SQLiteOpenHelper implements BaseColumns {
     private static final String DATABASE_TABLE = "Movies";
 
     //Получение экзмепляра класса помощника.
-    public static Database getInstance(Context context){
+    public static Database getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new Database(context.getApplicationContext());
         }
@@ -40,7 +40,7 @@ public class Database extends SQLiteOpenHelper implements BaseColumns {
     }
 
     //Добавление фильма в список любимых.
-    public static void addMovie(Context context, long movieId){
+    public static void addMovie(Context context, long movieId) {
         Database db = getInstance(context);
         SQLiteDatabase database = db.getWritableDatabase();
         ContentValues newValues = new ContentValues();
@@ -50,13 +50,14 @@ public class Database extends SQLiteOpenHelper implements BaseColumns {
         database.close();
         newValues.clear();
     }
+
     //Проверка на то, существует ли данный фильм в списке любимых.
-    public static boolean isMovieExist(Context context, long movieId){
+    public static boolean isMovieExist(Context context, long movieId) {
         Database db = getInstance(context);
         SQLiteDatabase database = db.getWritableDatabase();
-        Cursor cursor = database.query(DATABASE_TABLE,new String[]{MOVIE_ID_COLUMN},MOVIE_ID_COLUMN+" = ?",new String[]{movieId+""},null,null,null);
-        if(cursor==null)return false;
-        boolean isExist=cursor.getCount()>0;
+        Cursor cursor = database.query(DATABASE_TABLE, new String[]{MOVIE_ID_COLUMN}, MOVIE_ID_COLUMN + " = ?", new String[]{movieId + ""}, null, null, null);
+        if (cursor == null) return false;
+        boolean isExist = cursor.getCount() > 0;
         cursor.close();
         return isExist;
     }
@@ -65,19 +66,20 @@ public class Database extends SQLiteOpenHelper implements BaseColumns {
     public static void removeMovie(Context context, long movieId) {
         Database db = getInstance(context);
         SQLiteDatabase database = db.getWritableDatabase();
-        database.delete(DATABASE_TABLE,MOVIE_ID_COLUMN+" = ?",new String[]{movieId+""});
+        database.delete(DATABASE_TABLE, MOVIE_ID_COLUMN + " = ?", new String[]{movieId + ""});
         db.close();
         database.close();
 
     }
-    public static long[] getAllMovie(Context context){
+
+    public static long[] getAllMovie(Context context) {
         Database db = getInstance(context);
         SQLiteDatabase database = db.getWritableDatabase();
-        Cursor cursor = database.query(DATABASE_TABLE,new String[]{MOVIE_ID_COLUMN},null,null,null,null,null);
+        Cursor cursor = database.query(DATABASE_TABLE, new String[]{MOVIE_ID_COLUMN}, null, null, null, null, null);
         long[] movies = new long[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < movies.length; i++) {
-            movies[i]=cursor.getLong(0);
+            movies[i] = cursor.getLong(0);
             cursor.moveToNext();
         }
         cursor.close();

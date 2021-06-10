@@ -2,17 +2,17 @@ package ru.myitschool.travamd.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,24 +28,24 @@ import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
 import ru.myitschool.travamd.adapters.ActorAdapter;
-import ru.myitschool.travamd.adapters.Movie_adapter;
+import ru.myitschool.travamd.adapters.MovieAdapter;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.models.Actor;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
 import ru.myitschool.travamd.utils.Networking;
+import ru.myitschool.travamd.utils.Utils;
 
 public class DescriptionFragment extends Fragment {
-
-
     ImageView movieImagePoster, movieImageBackPoster;
     TextView movieOriginalTitle, movieTitle, movieReleaseDate,
-             movieOverview, movieGenres, movieAverage, movieRating;
+            movieOverview, movieGenres, movieAverage, movieRating;
     CardView cardOverview;
 
-    RecyclerView.LayoutManager layoutManagerActor,layoutManagerRecommendation;
+    RecyclerView.LayoutManager layoutManagerActor, layoutManagerRecommendation;
     private RecyclerView recyclerViewActor, recyclerViewRecommendation;
-    private ProgressBar progressBarActor,progressBarRecommendation;
-    private Movie_adapter mMovieAdapter;
+    private ProgressBar progressBarActor, progressBarRecommendation;
+    private MovieAdapter mMovieAdapter;
     private ActorAdapter actorAdapter;
     private ArrayList<Movie> movieList = new ArrayList<>();
     private ArrayList<Actor> actorList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class DescriptionFragment extends Fragment {
     String actor_Name = Constants.NOT_FOUND;
     String actorCharacter = Constants.NOT_FOUND;
 
-    public static DescriptionFragment newInstance(long movieId,String url,String name,String originalName,String overview, String year) {
+    public static DescriptionFragment newInstance(long movieId, String url, String name, String originalName, String overview, String year) {
         DescriptionFragment fragment = new DescriptionFragment();
 
         //Передача имеющихся данных между фрагментами для сохранения трафика
@@ -80,6 +80,7 @@ public class DescriptionFragment extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_description, container, false);
@@ -117,8 +118,8 @@ public class DescriptionFragment extends Fragment {
         recyclerViewActor = (RecyclerView) v.findViewById(R.id.recycler_view_actor);
         recyclerViewRecommendation = (RecyclerView) v.findViewById(R.id.recycler_view_recommendation);
 
-        actorAdapter = new ActorAdapter(actorList, getActivity());
-        mMovieAdapter = new Movie_adapter(getActivity(),movieList, CardType);
+        actorAdapter = new ActorAdapter(actorList, mChangeFragmentListener);
+        mMovieAdapter = new MovieAdapter(movieList, CardType, mChangeFragmentListener);
 
         recyclerViewActor.setHasFixedSize(true);
         recyclerViewRecommendation.setHasFixedSize(true);
@@ -146,7 +147,7 @@ public class DescriptionFragment extends Fragment {
         movieRecAsync.execute(Constants.BASE_URL + movieID + "/recommendations");
 
         //Заполнение полей.
-        Glide.with(this)
+        Glide.with(getContext())
                 .load(Constants.COVER_W780_URL + coverPath)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -195,9 +196,9 @@ public class DescriptionFragment extends Fragment {
                 vote_average = json.getString("vote_average");
                 genresArray = json.getJSONArray("genres");
 
-                    for (int i = 0; i < genresArray.length(); i++) {
-                        genres = genres + genresArray.getJSONObject(i).getString("name") + "\n";
-                    }
+                for (int i = 0; i < genresArray.length(); i++) {
+                    genres = genres + genresArray.getJSONObject(i).getString("name") + "\n";
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -225,7 +226,7 @@ public class DescriptionFragment extends Fragment {
                     backdrop_path = coverPath;
                 }
 
-                Picasso.with(getContext())
+                Picasso.get()
                         .load(Constants.COVER_W780_URL + backdrop_path)
                         .error(R.drawable.cover_back)
                         .into(movieImageBackPoster);
@@ -355,5 +356,10 @@ public class DescriptionFragment extends Fragment {
 
         }
     }
+
+    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+            getActivity().getSupportFragmentManager(),
+            fragment
+    );
 
 }

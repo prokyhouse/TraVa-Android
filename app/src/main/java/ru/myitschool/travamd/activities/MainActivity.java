@@ -1,13 +1,15 @@
 package ru.myitschool.travamd.activities;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.navigation.NavigationView;
 
 import ru.myitschool.travamd.R;
 import ru.myitschool.travamd.fragments.AboutFragment;
@@ -30,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
         setupDrawer();
         setupToolbar();
 
-        getFragmentManager().beginTransaction().add(R.id.frame_container, new MainFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_container, new MainFragment())
+                .commit();
 
     }
 
@@ -69,7 +74,10 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new AboutFragment();
                     break;
             }
-            getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_container, fragment)
+                    .commit();
             item.setChecked(true);
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;

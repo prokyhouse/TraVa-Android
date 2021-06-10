@@ -22,7 +22,7 @@
             android:paddingTop="8dp"
             android:textSize="24sp"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_in_theatre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:paddingTop="8dp"
             android:textSize="24sp"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
