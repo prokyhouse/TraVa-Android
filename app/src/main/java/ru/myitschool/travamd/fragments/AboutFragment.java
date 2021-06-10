@@ -1,12 +1,14 @@
 package ru.myitschool.travamd.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import ru.myitschool.travamd.R;
 

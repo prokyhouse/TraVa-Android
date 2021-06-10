@@ -1,18 +1,19 @@
 package ru.myitschool.travamd.fragments;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
@@ -26,23 +27,24 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import ru.myitschool.travamd.R;
-
-import ru.myitschool.travamd.adapters.Movie_adapter;
+import ru.myitschool.travamd.adapters.MovieAdapter;
 import ru.myitschool.travamd.adapters.MovieHorizontalAdapter;
+import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
 import ru.myitschool.travamd.utils.Networking;
+import ru.myitschool.travamd.utils.Utils;
 
 public class MainFragment extends Fragment {
     private RecyclerView mRecyclerViewInTheatre, mRecyclerViewPopular;
     private MovieHorizontalAdapter mMovieHorizontalAdapter;
-    private Movie_adapter movieAdapterInTheatre,movieAdapterPopular;
+    private MovieAdapter movieAdapterInTheatre, movieAdapterPopular;
     private ArrayList<Movie> movieListPopular = new ArrayList<>();
     private ArrayList<Movie> movieListInTheatre = new ArrayList<>();
     private ImageView RecImage;
     private TextView RecTitle, RecDesc;
 
-    ToggleButton LikePop,LikeTheatre,LikeRec;
+    ToggleButton LikePop, LikeTheatre, LikeRec;
     final Random random = new Random();
     String coverImageRec = "";
     String movieNameRec = "";
@@ -58,9 +60,9 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mRecyclerViewInTheatre = (RecyclerView) view.findViewById(R.id.recycler_view_in_theatre);
-        LinearLayoutManager  linearLayoutManagerInTheatre = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManagerInTheatre = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerViewInTheatre.setLayoutManager(linearLayoutManagerInTheatre);
-        movieAdapterInTheatre = new Movie_adapter(getActivity(), movieListInTheatre, 3);
+        movieAdapterInTheatre = new MovieAdapter(movieListInTheatre, 3, mChangeFragmentListener);
         mRecyclerViewInTheatre.setNestedScrollingEnabled(true);
         mRecyclerViewInTheatre.setHasFixedSize(true);
         mRecyclerViewInTheatre.setItemAnimator(new DefaultItemAnimator());
@@ -68,12 +70,12 @@ public class MainFragment extends Fragment {
 
         mRecyclerViewPopular = (RecyclerView) view.findViewById(R.id.recycler_view_popular);
         LinearLayoutManager linearLayoutManagerPopular = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        movieAdapterPopular = new Movie_adapter(getActivity(), movieListPopular, 3);
+        movieAdapterPopular = new MovieAdapter(movieListPopular, 3, mChangeFragmentListener);
         mRecyclerViewPopular.setLayoutManager(linearLayoutManagerPopular);
         mRecyclerViewPopular.setNestedScrollingEnabled(true);
         mRecyclerViewPopular.setHasFixedSize(true);
         mRecyclerViewPopular.setItemAnimator(new DefaultItemAnimator());
-        mMovieHorizontalAdapter = new MovieHorizontalAdapter(getContext(),new ArrayList<>(),null);
+        mMovieHorizontalAdapter = new MovieHorizontalAdapter(new ArrayList<>(), null, mChangeFragmentListener);
         mRecyclerViewPopular.setAdapter(movieAdapterPopular);
 
         RecImage = (ImageView) view.findViewById(R.id.movie_cover);
@@ -102,10 +104,12 @@ public class MainFragment extends Fragment {
 
     private class MoviePopularQueryTask extends AsyncTask<String, Movie, Void> {
         private String mQueryUrl;
-        public MoviePopularQueryTask(String queryURL){
 
-            mQueryUrl=queryURL;
+        public MoviePopularQueryTask(String queryURL) {
+
+            mQueryUrl = queryURL;
         }
+
         @Override
         protected void onPreExecute() {
 
@@ -117,7 +121,6 @@ public class MainFragment extends Fragment {
             URL url = Networking.buildUrl(mQueryUrl);
             String coverImage, movieName, movieNameOriginal, movieYear, movieOverview;
             String jsonResult = "";
-
 
 
             long movieId;
@@ -139,13 +142,12 @@ public class MainFragment extends Fragment {
                     publishProgress(movieQueried);
                 }
 
-                int RecMovieID = (random.nextInt(resultArray.length()-10) + 10);
+                int RecMovieID = (random.nextInt(resultArray.length() - 10) + 10);
 
                 JSONObject movie = resultArray.getJSONObject(RecMovieID);
                 coverImageRec = movie.getString("poster_path");
                 movieNameRec = movie.getString("title");
                 movieOverviewRec = movie.getString("overview");
-
 
 
             } catch (IOException e) {
@@ -160,7 +162,7 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Movie... values) {
-            mMovieHorizontalAdapter.add(values[0],false);
+            mMovieHorizontalAdapter.add(values[0], false);
             movieListPopular.add(values[0]);
             movieAdapterPopular.notifyDataSetChanged();
 
@@ -171,7 +173,7 @@ public class MainFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             RecTitle.setText(movieNameRec);
             RecDesc.setText(movieOverviewRec);
-            Picasso.with(getContext())
+            Picasso.get()
                     // "movie.getCover_url()" содержит только название картинки формата "Название.jpg".
                     .load(Constants.COVER_W780_URL + coverImageRec)
                     .resize(getContext().getResources().getDimensionPixelSize(R.dimen.imageview_width),
@@ -184,10 +186,12 @@ public class MainFragment extends Fragment {
 
     private class MovieInTheatreQueryTask extends AsyncTask<String, Movie, Void> {
         private String mQueryUrl;
-        public MovieInTheatreQueryTask(String queryURL){
 
-            mQueryUrl=queryURL;
+        public MovieInTheatreQueryTask(String queryURL) {
+
+            mQueryUrl = queryURL;
         }
+
         @Override
         protected void onPreExecute() {
 
@@ -230,7 +234,7 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Movie... values) {
-            mMovieHorizontalAdapter.add(values[0],false);
+            mMovieHorizontalAdapter.add(values[0], false);
             movieListInTheatre.add(values[0]);
             movieAdapterInTheatre.notifyDataSetChanged();
         }
@@ -240,4 +244,9 @@ public class MainFragment extends Fragment {
 
         }
     }
+
+    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+            getActivity().getSupportFragmentManager(),
+            fragment
+    );
 }

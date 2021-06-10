@@ -1,9 +1,7 @@
 package ru.myitschool.travamd.fragments;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -63,7 +64,7 @@ public class ActorFragment extends Fragment {
         Name.setText(name);
         NameHeader.setTitle(name);
 
-        Picasso.with(getContext())
+        Picasso.get()
                 .load(Constants.COVER_W780_URL + poster)
                 .into(Poster);
 

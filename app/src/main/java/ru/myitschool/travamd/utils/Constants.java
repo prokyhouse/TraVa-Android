@@ -14,7 +14,7 @@ public class Constants {
     public static String TOP_RATED_URL = "https://api.themoviedb.org/3/movie/top_rated";
     public static String UPCOMING_URL = "https://api.themoviedb.org/3/movie/upcoming";
     public static String ACTOR_URL = "https://api.themoviedb.org/3/person/";
-    public static String COVER_W780_URL = "http://image.tmdb.org/t/p/w780";
+    public static String COVER_W780_URL = "https://image.tmdb.org/t/p/w780";
     public static String POPULAR_SERIES_URL = "https://api.themoviedb.org/3/tv/popular";
     public static String IN_THEATRE_URL = "https://api.themoviedb.org/3/movie/now_playing";
 

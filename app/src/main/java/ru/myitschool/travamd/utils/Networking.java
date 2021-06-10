@@ -2,7 +2,6 @@ package ru.myitschool.travamd.utils;
 
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
