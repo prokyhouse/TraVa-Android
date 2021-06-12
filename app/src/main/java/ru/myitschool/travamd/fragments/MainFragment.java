@@ -82,8 +82,8 @@ public class MainFragment extends Fragment {
         RecTitle = (TextView) view.findViewById(R.id.movie_name);
         RecDesc = (TextView) view.findViewById(R.id.movie_desc);
 
-        LikeRec = (ToggleButton) view.findViewById(R.id.like);
-        LikeRec.setVisibility(view.GONE);
+//        LikeRec = (ToggleButton) view.findViewById(R.id.like);
+//        LikeRec.setVisibility(view.GONE);
 
 
         loadPopularMovie();
@@ -245,7 +245,7 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

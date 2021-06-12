@@ -51,7 +51,6 @@ public class ActorFragment extends Fragment {
         Popularity = (TextView) v.findViewById(R.id.actor_popularity);
         NameHeader = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing);
         Poster = (ImageView) v.findViewById(R.id.actor_cover_l);
-
         //Получение данных из предыдущего фрагмента.
         Bundle bundle = getArguments();
 

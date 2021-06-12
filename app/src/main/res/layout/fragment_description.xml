@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="RtlHardcoded"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="@color/colorPrimaryDark">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -32,8 +33,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cover_back"
-                app:tint="#647b1fa2" />
+
+                android:foreground="@drawable/gradient"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -68,13 +69,15 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
 
+
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="4dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    >
 
                     <TextView
 
@@ -91,7 +94,8 @@
                         style="@style/Text.Headline"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        tools:text="Original movie title" />
+                        tools:text="Original movie title"
+                        />
 
 
                 </RelativeLayout>
@@ -109,7 +113,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="4dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
 
                 <RelativeLayout
@@ -184,6 +188,7 @@
                 <TextView
                     android:id="@+id/text_actor_title"
                     style="@style/Text.Item"
+                    android:textColor="@color/colorWindowBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="0dp"
@@ -227,7 +232,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="4dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
                 app:contentPaddingBottom="16dp"
                 app:contentPaddingLeft="16dp"
@@ -275,7 +280,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="4dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
                 app:contentPaddingBottom="16dp"
                 app:contentPaddingLeft="16dp"
@@ -357,6 +362,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="8dp"
                     style="@style/Text.Item"
+                    android:textColor="@color/colorWindowBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TraVa рекомендует"

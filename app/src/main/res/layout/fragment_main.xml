@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        >
+
+
 
         <TextView
             style="@style/Text.Item"
@@ -20,15 +28,16 @@
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:textColor="@color/colorWindowBackground"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_in_theatre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:paddingStart="4dp"
             tools:layout_height="128dp"
-            tools:listitem="@layout/movie_preview"/>
+            tools:listitem="@layout/movie_preview" />
 
         <TextView
             android:id="@+id/textView2"
@@ -39,10 +48,17 @@
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textColor="@color/colorWindowBackground"/>
+
+
 
         <include
-            layout="@layout/movie_horizontal"/>
+
+            layout="@layout/movie_horizontal"
+
+            />
+
 
         <TextView
             style="@style/Text.Item"
@@ -53,14 +69,16 @@
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:textColor="@color/colorWindowBackground"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_popular"
-            android:layout_width="match_parent"
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
+            android:paddingStart="4dp"
             tools:layout_height="128dp"
-            android:layout_margin="2dp"
-            tools:listitem="@layout/movie_horizontal_preview"/>
+            tools:listitem="@layout/movie_horizontal_preview" />
     </LinearLayout>
+
 </ScrollView>

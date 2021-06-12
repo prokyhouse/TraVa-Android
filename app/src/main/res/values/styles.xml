@@ -22,6 +22,7 @@
     </style>
     <style name="Text.Item" parent="Text.Headline">
         <item name="android:textSize">16sp</item>
+
     </style>
 
 <!--

@@ -64,7 +64,7 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
-        private final ToggleButton like;
+       // private final ToggleButton like;
         private final TextView name, description;
         private final View card;
 
@@ -73,7 +73,7 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
             //Нахождение объектов по ID. Никакой логики.
             card = itemView;
             image = (ImageView) itemView.findViewById(R.id.movie_cover);
-            like = (ToggleButton) itemView.findViewById(R.id.like);
+            //like = (ToggleButton) itemView.findViewById(R.id.like);
             name = (TextView) itemView.findViewById(R.id.movie_name);
             description = (TextView) itemView.findViewById(R.id.movie_desc);
         }
@@ -101,7 +101,7 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
 
                 mChangeFragmentListener.onChange(fragment);
             });
-            like.setChecked(mLike.get(position));
+         /*   like.setChecked(mLike.get(position));
             //Обработка нажатия отметки "нравится"
             like.setOnClickListener(v -> {
                 ToggleButton button = (ToggleButton) v;
@@ -110,8 +110,8 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
                     mLike.set(getAdapterPosition(),true);
                 } else {Database.removeMovie(v.getContext(), movie.getMovieId());
                     mLike.set(getAdapterPosition(),false);
-                }
-            });
+                }*/
+           // });
 
         }
     }

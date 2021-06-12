@@ -37,10 +37,14 @@ import ru.myitschool.travamd.utils.Networking;
 import ru.myitschool.travamd.utils.Utils;
 
 public class DescriptionFragment extends Fragment {
+
     ImageView movieImagePoster, movieImageBackPoster;
     TextView movieOriginalTitle, movieTitle, movieReleaseDate,
             movieOverview, movieGenres, movieAverage, movieRating;
     CardView cardOverview;
+
+
+
 
     RecyclerView.LayoutManager layoutManagerActor, layoutManagerRecommendation;
     private RecyclerView recyclerViewActor, recyclerViewRecommendation;
@@ -57,7 +61,7 @@ public class DescriptionFragment extends Fragment {
     String coverPath = "";
     String actorProfilePath = "";
     String actorID = "";
-    //По умолчанию данные содержат сведения об ошибки.
+    //По умолчанию данные содержат сведения об ошибке.
     String name = Constants.NOT_FOUND;
     String nameOriginal = Constants.NOT_FOUND;
     String year = Constants.NOT_FOUND;
@@ -89,6 +93,10 @@ public class DescriptionFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
+        androidx.appcompat.widget.Toolbar toolbar =  getActivity().findViewById(R.id.toolbar);
+
+
+
         if (bundle != null) {
             movieID = bundle.getLong("id");
             coverPath = bundle.getString("cover_path");
@@ -96,6 +104,8 @@ public class DescriptionFragment extends Fragment {
             nameOriginal = bundle.getString("nameOriginal");
             year = bundle.getString("year");
             overview = bundle.getString("overview");
+
+            toolbar.setSubtitle(name);
         }
 
         //Основные поля фрагмента.

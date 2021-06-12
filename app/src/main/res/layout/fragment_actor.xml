@@ -30,7 +30,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/cover_back"
                 app:layout_collapseMode="parallax"
-                app:tint="#647b1fa2"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.Toolbar
@@ -66,7 +65,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="4dp"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="4dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
                 app:contentPaddingBottom="16dp"
                 app:contentPaddingLeft="16dp"

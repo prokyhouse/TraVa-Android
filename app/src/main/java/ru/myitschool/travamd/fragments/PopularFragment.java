@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,7 @@ public class PopularFragment extends Fragment {
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
@@ -54,6 +56,8 @@ public class PopularFragment extends Fragment {
         mMovieHorizontalAdapter = new MovieHorizontalAdapter(null, null, mChangeFragmentListener);
         recyclerView.setAdapter(mMovieHorizontalAdapter);
         loadMovie();
+
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -133,11 +137,9 @@ public class PopularFragment extends Fragment {
                     publishProgress(movieQueried);
                 }
 
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
         }

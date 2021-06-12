@@ -12,7 +12,9 @@
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
-    android:layout_marginTop="4dp">
+    android:layout_marginTop="4dp"
+    app:cardCornerRadius="8dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,9 +37,9 @@
                 android:id="@+id/movie_name"
                 style="@style/Text.Headline"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/like"/>
-            <ToggleButton
+                android:layout_height="match_parent"/>
+                <!--android:layout_above="@+id/like"-->
+           <!-- <ToggleButton
                 android:id="@+id/likeCard"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -50,7 +52,7 @@
                 android:drawableTop="@drawable/state_like_button"
                 android:paddingTop="7dp"
                 android:textOff=""
-                android:textOn=""/>
+                android:textOn=""/>-->
 
         </RelativeLayout>
 
