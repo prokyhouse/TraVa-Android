@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,9 @@ import ru.myitschool.travamd.fragments.TopFragment;
 import ru.myitschool.travamd.fragments.UpcomingFragment;
 import ru.myitschool.travamd.utils.Constants;
 
+/**
+ * Created by Kirill Prokofyev on 19.06.21.
+ */
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -35,28 +39,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // setupDrawer();
-        // setupToolbar();
 
-       /* getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.frame_container, new MainFragment())
-                .commit();*/
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_container, new MainFragment())
                 .commit();
 
+        setupNavBar();
+
+    }
+
+    private void setupNavBar(){
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
         toolbar =  findViewById(R.id.toolbar);
-
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragment = null;
@@ -91,69 +94,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
     }
-
-    //Установка начальных параметров бокового меню
-  /*  private void setupDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_drawer);
-        navigationView.setCheckedItem(R.id.main);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            if (item.isChecked()) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-            Fragment fragment;
-            //Выборка элементов
-            switch (item.getItemId()) {
-                case R.id.main:
-                    fragment = new MainFragment();
-                    break;
-                case R.id.favorite:
-                    fragment = new LikeFragment();
-                    break;
-                case R.id.popular:
-                    fragment = new PopularFragment();
-                    break;
-                case R.id.movie:
-                    fragment = new UpcomingFragment();
-                    break;
-                case R.id.top:
-                    fragment = new TopFragment();
-                    break;
-                case R.id.serials:
-                    fragment = new SeriesFragment();
-                    break;
-                default:
-                    fragment = new AboutFragment();
-                    break;
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_container, fragment)
-                    .commit();
-            item.setChecked(true);
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        });
-    }
-*/
-    //Установка начальных параметров Toolbar
-   /* private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
-                R.string.open_drawer, R.string.close_drawer);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }*/
 
     @Override
     public void onBackPressed() {
-       /* if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        else */
             super.onBackPressed();
         toolbar.setSubtitle("");
     }

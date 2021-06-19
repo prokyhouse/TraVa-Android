@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,7 +37,6 @@ public class TopFragment extends Fragment {
     private ProgressBar mProgressBar;
     private boolean mIsLoading = true;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_scroll, container, false);
@@ -43,10 +44,10 @@ public class TopFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mProgressBar = view.findViewById(R.id.progress_bar);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), SPAN_COUNT);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(true);
@@ -58,7 +59,7 @@ public class TopFragment extends Fragment {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
 
                     int visibleItemCount = layoutManager.getChildCount();
@@ -92,6 +93,7 @@ public class TopFragment extends Fragment {
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieQueryTask extends AsyncTask<String, Movie, Void> {
 
         @Override
@@ -147,7 +149,7 @@ public class TopFragment extends Fragment {
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

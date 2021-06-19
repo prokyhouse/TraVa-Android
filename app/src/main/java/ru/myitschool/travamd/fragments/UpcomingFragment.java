@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,20 +32,18 @@ public class UpcomingFragment extends Fragment {
     int page = 1;
     RecyclerView.LayoutManager layoutManager;
     int cardNumber;
-    private View v;
-    private RecyclerView recyclerView;
     private MovieAdapter mMovieAdapter;
-    private ArrayList<Movie> movieList = new ArrayList<>();
+    private final ArrayList<Movie> movieList = new ArrayList<>();
     private ProgressBar progressBar;
     private boolean loading = true;
 
     //Фрагмент содержит код, аналогичный предыдущим.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_scroll, container, false);
+        View v = inflater.inflate(R.layout.fragment_scroll, container, false);
         cardNumber = 2;
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
         mMovieAdapter = new MovieAdapter(movieList, cardNumber, mChangeFragmentListener);
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getActivity(), cardNumber);
@@ -53,7 +52,7 @@ public class UpcomingFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mMovieAdapter);
 
-        progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+        progressBar = v.findViewById(R.id.progress_bar);
 
         MovieQueryTask movieAsync = new MovieQueryTask();
         movieAsync.execute(Constants.UPCOMING_URL);
@@ -91,6 +90,7 @@ public class UpcomingFragment extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class MovieQueryTask extends AsyncTask<String, Movie, Void> {
 
         @Override
@@ -148,7 +148,7 @@ public class UpcomingFragment extends Fragment {
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

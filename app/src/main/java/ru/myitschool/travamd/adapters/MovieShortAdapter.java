@@ -1,6 +1,5 @@
 package ru.myitschool.travamd.adapters;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class MovieShortAdapter extends RecyclerView.Adapter<MovieShortAdapter.Mo
     }
 
     //Здесь мы передаём View, которая будет отображаться как элемент списка
+    @NotNull
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie, parent, false);
@@ -60,10 +62,10 @@ public class MovieShortAdapter extends RecyclerView.Adapter<MovieShortAdapter.Mo
             super(itemView);
             //Нахождение объектов по ID. Никакой логики.
             card = itemView;
-            image = (ImageView) itemView.findViewById(R.id.movie_cover);
-            name = (TextView) itemView.findViewById(R.id.movie_name);
-            originalName = (TextView) itemView.findViewById(R.id.movie_name_original);
-            year = (TextView) itemView.findViewById(R.id.movie_year);
+            image = itemView.findViewById(R.id.movie_cover);
+            name = itemView.findViewById(R.id.movie_name);
+            originalName = itemView.findViewById(R.id.movie_name_original);
+            year = itemView.findViewById(R.id.movie_year);
         }
 
         public void bind(Movie movie) {

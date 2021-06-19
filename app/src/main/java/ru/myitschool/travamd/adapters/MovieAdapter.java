@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
@@ -32,8 +34,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.AdapterViewH
         mChangeFragmentListener = changeFragmentListener;
     }
 
+    @NotNull
     @Override
-    public AdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
 
         switch (mCardType) {
             case 1:
@@ -47,9 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.AdapterViewH
                 break;
         }
 
-        AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
-        return viewHolder;
+        return new AdapterViewHolder(view);
     }
 
     @Override
@@ -72,21 +73,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.AdapterViewH
             super(view);
 
             //Аналогично, разный тип карточек содержит внутри разные поля информации.
-            cover_image = (ImageView) view.findViewById(R.id.movie_cover);
-            movieCard = (CardView) view.findViewById(R.id.movie_card);
+            cover_image = view.findViewById(R.id.movie_cover);
+            movieCard = view.findViewById(R.id.movie_card);
 
             switch (mCardType) {
                 case 1:
-                    movieName = (TextView) view.findViewById(R.id.movie_name);
-                    movieDesc = (TextView) view.findViewById(R.id.movie_desc);
+                    movieName = view.findViewById(R.id.movie_name);
+                    movieDesc = view.findViewById(R.id.movie_desc);
                     break;
                 case 2:
-                    movieName = (TextView) view.findViewById(R.id.movie_name);
-                    movieNameOriginal = (TextView) view.findViewById(R.id.movie_name_original);
-                    movieYear = (TextView) view.findViewById(R.id.movie_year);
+                    movieName = view.findViewById(R.id.movie_name);
+                    movieNameOriginal = view.findViewById(R.id.movie_name_original);
+                    movieYear = view.findViewById(R.id.movie_year);
                     break;
                 case 3:
-                    movieName = (TextView) view.findViewById(R.id.movie_name);
+                    movieName = view.findViewById(R.id.movie_name);
             }
         }
 

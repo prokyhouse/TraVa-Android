@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,15 +45,11 @@ public class DescriptionFragment extends Fragment {
     CardView cardOverview;
 
 
-
-
     RecyclerView.LayoutManager layoutManagerActor, layoutManagerRecommendation;
-    private RecyclerView recyclerViewActor, recyclerViewRecommendation;
-    private ProgressBar progressBarActor, progressBarRecommendation;
+    private RecyclerView recyclerViewActor;
     private MovieAdapter mMovieAdapter;
-    private ActorAdapter actorAdapter;
-    private ArrayList<Movie> movieList = new ArrayList<>();
-    private ArrayList<Actor> actorList = new ArrayList<>();
+    private final ArrayList<Movie> movieList = new ArrayList<>();
+    private final ArrayList<Actor> actorList = new ArrayList<>();
 
 
     long movieID = 0;
@@ -61,6 +58,7 @@ public class DescriptionFragment extends Fragment {
     String coverPath = "";
     String actorProfilePath = "";
     String actorID = "";
+
     //По умолчанию данные содержат сведения об ошибке.
     String name = Constants.NOT_FOUND;
     String nameOriginal = Constants.NOT_FOUND;
@@ -93,8 +91,7 @@ public class DescriptionFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-        androidx.appcompat.widget.Toolbar toolbar =  getActivity().findViewById(R.id.toolbar);
-
+        androidx.appcompat.widget.Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
 
 
         if (bundle != null) {
@@ -109,26 +106,26 @@ public class DescriptionFragment extends Fragment {
         }
 
         //Основные поля фрагмента.
-        movieImagePoster = (ImageView) v.findViewById(R.id.image_movie_detail_poster);
-        movieImageBackPoster = (ImageView) v.findViewById(R.id.backdrop_image);
-        movieOriginalTitle = (TextView) v.findViewById(R.id.text_movie_original_title);
-        movieTitle = (TextView) v.findViewById(R.id.text_movie_title);
-        movieReleaseDate = (TextView) v.findViewById(R.id.text_movie_release_date);
-        movieOverview = (TextView) v.findViewById(R.id.text_movie_overview);
-        movieGenres = (TextView) v.findViewById(R.id.text_movie_genre);
-        movieAverage = (TextView) v.findViewById(R.id.text_movie_smth);
+        movieImagePoster = v.findViewById(R.id.image_movie_detail_poster);
+        movieImageBackPoster = v.findViewById(R.id.backdrop_image);
+        movieOriginalTitle = v.findViewById(R.id.text_movie_original_title);
+        movieTitle = v.findViewById(R.id.text_movie_title);
+        movieReleaseDate = v.findViewById(R.id.text_movie_release_date);
+        movieOverview = v.findViewById(R.id.text_movie_overview);
+        movieGenres = v.findViewById(R.id.text_movie_genre);
+        movieAverage = v.findViewById(R.id.text_movie_smth);
 
-        progressBarActor = (ProgressBar) v.findViewById(R.id.progress_bar_actor);
-        progressBarRecommendation = (ProgressBar) v.findViewById(R.id.progress_bar_recommendation);
+        ProgressBar progressBarActor = v.findViewById(R.id.progress_bar_actor);
+        ProgressBar progressBarRecommendation = v.findViewById(R.id.progress_bar_recommendation);
 
-        movieRating = (TextView) v.findViewById(R.id.text_movie_rating);
+        movieRating = v.findViewById(R.id.text_movie_rating);
 
-        cardOverview = (CardView) v.findViewById(R.id.card_movie_overview);
+        cardOverview = v.findViewById(R.id.card_movie_overview);
 
-        recyclerViewActor = (RecyclerView) v.findViewById(R.id.recycler_view_actor);
-        recyclerViewRecommendation = (RecyclerView) v.findViewById(R.id.recycler_view_recommendation);
+        recyclerViewActor = v.findViewById(R.id.recycler_view_actor);
+        RecyclerView recyclerViewRecommendation = v.findViewById(R.id.recycler_view_recommendation);
 
-        actorAdapter = new ActorAdapter(actorList, mChangeFragmentListener);
+        ActorAdapter actorAdapter = new ActorAdapter(actorList, mChangeFragmentListener);
         mMovieAdapter = new MovieAdapter(movieList, CardType, mChangeFragmentListener);
 
         recyclerViewActor.setHasFixedSize(true);
@@ -167,12 +164,12 @@ public class DescriptionFragment extends Fragment {
         movieTitle.setText(name);
         movieOriginalTitle.setText(nameOriginal);
 
-        String releaseDate = String.format(year);
+        String releaseDate = year;
         movieReleaseDate.setText(releaseDate);
 
         //Если поле не содержит информации, оно скрывается.
         if (overview.equals("")) {
-            cardOverview.setVisibility(v.GONE);
+            cardOverview.setVisibility(View.GONE);
         } else {
             movieOverview.setText(overview);
         }
@@ -181,6 +178,7 @@ public class DescriptionFragment extends Fragment {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     public class MovieQueryTask extends AsyncTask<String, Movie, Void> {
 
         String backdrop_path, vote_average;
@@ -252,6 +250,7 @@ public class DescriptionFragment extends Fragment {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class ActorQueryTask extends AsyncTask<String, Actor, Void> {
 
         @Override
@@ -269,11 +268,8 @@ public class DescriptionFragment extends Fragment {
             try {
 
                 jsonResult = Networking.getJson(url);
-
-
                 JSONObject json = new JSONObject(jsonResult);
                 JSONArray items = json.getJSONArray("cast");
-
 
                 for (int i = 0; i < items.length() - 1; i++) {
                     actor_Name = items.getJSONObject(i).getString("name");
@@ -326,7 +322,7 @@ public class DescriptionFragment extends Fragment {
 
             URL url = Networking.buildUrl(queryUrl, page);
             String coverImage, movieName, movieNameOriginal, movieYear, movieOverview;
-            String jsonResult = "";
+            String jsonResult;
             long movieId;
             try {
                 jsonResult = Networking.getJson(url);
@@ -346,11 +342,9 @@ public class DescriptionFragment extends Fragment {
                     publishProgress(movieQueried);
                 }
 
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
         }
@@ -367,7 +361,7 @@ public class DescriptionFragment extends Fragment {
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

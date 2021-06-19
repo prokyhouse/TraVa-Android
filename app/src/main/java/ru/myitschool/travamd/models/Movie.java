@@ -11,15 +11,10 @@ public class Movie {
         this.cover_url = cover_url;
 
         this.movieName = movieName;
-
         this.movieNameOriginal = movieNameOriginal;
-
         this.movieId = movieId;
-
         this.movieYear = movieYear;
-
         this.overview = overview;
-
 
     }
 

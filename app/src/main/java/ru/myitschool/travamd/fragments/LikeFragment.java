@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +42,11 @@ public class LikeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mProgressBar = view.findViewById(R.id.progress_bar);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
@@ -52,7 +54,7 @@ public class LikeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mMovieHorizontalAdapter = new MovieHorizontalAdapter(null, null, mChangeFragmentListener);
         recyclerView.setAdapter(mMovieHorizontalAdapter);
-        textViewInfo = (TextView) view.findViewById(R.id.textViewInfo);
+        textViewInfo = view.findViewById(R.id.textViewInfo);
 
         //Загрузка данных.
         loadMovie();
@@ -65,12 +67,12 @@ public class LikeFragment extends Fragment {
         long[] movies = Database.getAllMovie(getContext());
 
         //Загрузка данных для каждого фильма.
-        for (int i = 0; i < movies.length; i++) {
-            new MovieQueryTask().execute(Constants.BASE_URL + movies[i]);
+        for (long movie : movies) {
+            new MovieQueryTask().execute(Constants.BASE_URL + movie);
         }
         //Если в списке нет фильмов.
         if (movies.length == 0) {
-            textViewInfo.setVisibility(textViewInfo.VISIBLE);
+            textViewInfo.setVisibility(View.VISIBLE);
             textViewInfo.setText("Ваш список пуст.");
         }
 
@@ -90,6 +92,7 @@ public class LikeFragment extends Fragment {
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieQueryTask extends AsyncTask<String, Movie, Void> {
         @Override
         protected void onPreExecute() {
@@ -123,11 +126,9 @@ public class LikeFragment extends Fragment {
                 publishProgress(movieQueried);
 
 
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
         }
@@ -140,11 +141,11 @@ public class LikeFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             hideProgressBar();
-            textViewInfo.setVisibility(textViewInfo.GONE);
+            textViewInfo.setVisibility(View.GONE);
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

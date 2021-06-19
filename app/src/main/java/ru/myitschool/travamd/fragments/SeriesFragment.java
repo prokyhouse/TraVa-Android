@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -40,16 +42,16 @@ public class SeriesFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mProgressBar = view.findViewById(R.id.progress_bar);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mMovieHorizontalAdapter = new MovieHorizontalAdapter(null,null, mChangeFragmentListener);
+        mMovieHorizontalAdapter = new MovieHorizontalAdapter(null, null, mChangeFragmentListener);
         recyclerView.setAdapter(mMovieHorizontalAdapter);
 
         //Загрузка данных.
@@ -57,8 +59,8 @@ public class SeriesFragment extends Fragment {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0){
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
                     int visibleItemCount = linearLayoutManager.getChildCount();
                     int totalItemCount = linearLayoutManager.getItemCount();
                     int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
@@ -79,7 +81,7 @@ public class SeriesFragment extends Fragment {
     //Загрузка страницы
     private void loadMovie() {
         mPage++;
-        new MovieQueryTask().execute(Constants.POPULAR_SERIES_URL, mPage+"");
+        new MovieQueryTask().execute(Constants.POPULAR_SERIES_URL, mPage + "");
     }
 
     private void showProgressBar() {
@@ -90,6 +92,7 @@ public class SeriesFragment extends Fragment {
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieQueryTask extends AsyncTask<String, Movie, Void> {
 
         @Override
@@ -129,13 +132,12 @@ public class SeriesFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Movie... values) {
-            mMovieHorizontalAdapter.add(values[0], Database.isMovieExist(getContext(),values[0].getMovieId()));
+            mMovieHorizontalAdapter.add(values[0], Database.isMovieExist(getContext(), values[0].getMovieId()));
         }
 
         @Override
@@ -145,7 +147,7 @@ public class SeriesFragment extends Fragment {
         }
     }
 
-    private OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
+    private final OnChangeFragmentListener mChangeFragmentListener = fragment -> Utils.replaceFragment(
             getActivity().getSupportFragmentManager(),
             fragment
     );

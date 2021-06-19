@@ -24,10 +24,12 @@ public class AboutFragment extends Fragment implements AppBarLayout.OnOffsetChan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_about_app, container, false);
+        View v = inflater.inflate(R.layout.fragment_about_app,
+                container,
+                false);
 
-        AppBarLayout appbarLayout = (AppBarLayout) v.findViewById(R.id.materialup_appbar);
-        mProfileImage = (ImageView) v.findViewById(R.id.materialup_profile_image);
+        AppBarLayout appbarLayout = v.findViewById(R.id.materialup_appbar);
+        mProfileImage = v.findViewById(R.id.materialup_profile_image);
 
         appbarLayout.addOnOffsetChangedListener(this);
         mMaxScrollSize = appbarLayout.getTotalScrollRange();

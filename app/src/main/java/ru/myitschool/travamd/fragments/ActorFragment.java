@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +31,6 @@ public class ActorFragment extends Fragment {
     TextView Name, Birtday, PlaceOfBirth, Popularity;
     CollapsingToolbarLayout NameHeader;
 
-    private View v;
-
     private String id = "";
     private String poster = "";
     //В случае отсутствия данных об Актере, будет выведена соответствующая информация.
@@ -43,14 +42,16 @@ public class ActorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_actor, container, false);
+        View v = inflater.inflate(R.layout.fragment_actor,
+                container,
+                false);
 
-        Name = (TextView) v.findViewById(R.id.actor_name_l);
-        Birtday = (TextView) v.findViewById(R.id.actor_birtday);
-        PlaceOfBirth = (TextView) v.findViewById(R.id.actor_place_of_birth);
-        Popularity = (TextView) v.findViewById(R.id.actor_popularity);
-        NameHeader = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing);
-        Poster = (ImageView) v.findViewById(R.id.actor_cover_l);
+        Name = v.findViewById(R.id.actor_name_l);
+        Birtday = v.findViewById(R.id.actor_birtday);
+        PlaceOfBirth = v.findViewById(R.id.actor_place_of_birth);
+        Popularity = v.findViewById(R.id.actor_popularity);
+        NameHeader = v.findViewById(R.id.collapsing);
+        Poster = v.findViewById(R.id.actor_cover_l);
         //Получение данных из предыдущего фрагмента.
         Bundle bundle = getArguments();
 
@@ -75,6 +76,7 @@ public class ActorFragment extends Fragment {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     public class ActorQueryTask extends AsyncTask<String, Movie, Void> {
 
         @Override
@@ -85,10 +87,8 @@ public class ActorFragment extends Fragment {
         protected Void doInBackground(String... params) {
 
             String queryUrl = params[0];
-
             URL url = Networking.buildUrl(queryUrl);
-
-            String jsonResult = "";
+            String jsonResult;
 
             try {
 

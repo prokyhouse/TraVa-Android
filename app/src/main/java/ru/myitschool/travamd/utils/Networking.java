@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 public class Networking {
 
-
     public static URL buildUrl(String queryUrl) {
         return buildUrl(queryUrl, null);
     }

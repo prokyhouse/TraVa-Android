@@ -1,5 +1,6 @@
 package ru.myitschool.travamd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,11 +38,10 @@ import ru.myitschool.travamd.utils.Networking;
 import ru.myitschool.travamd.utils.Utils;
 
 public class MainFragment extends Fragment {
-    private RecyclerView mRecyclerViewInTheatre, mRecyclerViewPopular;
     private MovieHorizontalAdapter mMovieHorizontalAdapter;
     private MovieAdapter movieAdapterInTheatre, movieAdapterPopular;
-    private ArrayList<Movie> movieListPopular = new ArrayList<>();
-    private ArrayList<Movie> movieListInTheatre = new ArrayList<>();
+    private final ArrayList<Movie> movieListPopular = new ArrayList<>();
+    private final ArrayList<Movie> movieListInTheatre = new ArrayList<>();
     private ImageView RecImage;
     private TextView RecTitle, RecDesc;
 
@@ -56,10 +57,10 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mRecyclerViewInTheatre = (RecyclerView) view.findViewById(R.id.recycler_view_in_theatre);
+        RecyclerView mRecyclerViewInTheatre = view.findViewById(R.id.recycler_view_in_theatre);
         LinearLayoutManager linearLayoutManagerInTheatre = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerViewInTheatre.setLayoutManager(linearLayoutManagerInTheatre);
         movieAdapterInTheatre = new MovieAdapter(movieListInTheatre, 3, mChangeFragmentListener);
@@ -68,7 +69,7 @@ public class MainFragment extends Fragment {
         mRecyclerViewInTheatre.setItemAnimator(new DefaultItemAnimator());
         mRecyclerViewInTheatre.setAdapter(movieAdapterInTheatre);
 
-        mRecyclerViewPopular = (RecyclerView) view.findViewById(R.id.recycler_view_popular);
+        RecyclerView mRecyclerViewPopular = view.findViewById(R.id.recycler_view_popular);
         LinearLayoutManager linearLayoutManagerPopular = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         movieAdapterPopular = new MovieAdapter(movieListPopular, 3, mChangeFragmentListener);
         mRecyclerViewPopular.setLayoutManager(linearLayoutManagerPopular);
@@ -78,9 +79,9 @@ public class MainFragment extends Fragment {
         mMovieHorizontalAdapter = new MovieHorizontalAdapter(new ArrayList<>(), null, mChangeFragmentListener);
         mRecyclerViewPopular.setAdapter(movieAdapterPopular);
 
-        RecImage = (ImageView) view.findViewById(R.id.movie_cover);
-        RecTitle = (TextView) view.findViewById(R.id.movie_name);
-        RecDesc = (TextView) view.findViewById(R.id.movie_desc);
+        RecImage = view.findViewById(R.id.movie_cover);
+        RecTitle = view.findViewById(R.id.movie_name);
+        RecDesc = view.findViewById(R.id.movie_desc);
 
 //        LikeRec = (ToggleButton) view.findViewById(R.id.like);
 //        LikeRec.setVisibility(view.GONE);
@@ -102,8 +103,9 @@ public class MainFragment extends Fragment {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     private class MoviePopularQueryTask extends AsyncTask<String, Movie, Void> {
-        private String mQueryUrl;
+        private final String mQueryUrl;
 
         public MoviePopularQueryTask(String queryURL) {
 
@@ -150,11 +152,9 @@ public class MainFragment extends Fragment {
                 movieOverviewRec = movie.getString("overview");
 
 
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
 
@@ -184,8 +184,9 @@ public class MainFragment extends Fragment {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class MovieInTheatreQueryTask extends AsyncTask<String, Movie, Void> {
-        private String mQueryUrl;
+        private final String mQueryUrl;
 
         public MovieInTheatreQueryTask(String queryURL) {
 
@@ -223,10 +224,7 @@ public class MainFragment extends Fragment {
                     publishProgress(movieQueried);
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return null;
@@ -241,7 +239,6 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
         }
     }
 

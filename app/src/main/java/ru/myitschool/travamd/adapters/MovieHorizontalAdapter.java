@@ -1,16 +1,16 @@
 package ru.myitschool.travamd.adapters;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ import ru.myitschool.travamd.callbacks.OnChangeFragmentListener;
 import ru.myitschool.travamd.fragments.DescriptionFragment;
 import ru.myitschool.travamd.models.Movie;
 import ru.myitschool.travamd.utils.Constants;
-import ru.myitschool.travamd.utils.Database;
 
 public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontalAdapter.MovieViewHolder> {
     private final OnChangeFragmentListener mChangeFragmentListener;
@@ -39,6 +38,7 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
     }
 
     //Здесь мы передаём View, которая будет отображаться как элемент списка
+    @NotNull
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_horizontal, parent, false);
@@ -47,7 +47,7 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
     //Задаём ей значения
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bind(mData.get(position), position);
+        holder.bind(mData.get(position));
     }
 
     @Override
@@ -72,13 +72,13 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
             super(itemView);
             //Нахождение объектов по ID. Никакой логики.
             card = itemView;
-            image = (ImageView) itemView.findViewById(R.id.movie_cover);
+            image = itemView.findViewById(R.id.movie_cover);
             //like = (ToggleButton) itemView.findViewById(R.id.like);
-            name = (TextView) itemView.findViewById(R.id.movie_name);
-            description = (TextView) itemView.findViewById(R.id.movie_desc);
+            name = itemView.findViewById(R.id.movie_name);
+            description = itemView.findViewById(R.id.movie_desc);
         }
 
-        public void bind(Movie movie, int position) {
+        public void bind(Movie movie) {
             //Заполнение элементов + обработка
             name.setText(movie.getMovieName());
             description.setText(movie.getMovieOverview());
@@ -110,8 +110,8 @@ public class MovieHorizontalAdapter extends RecyclerView.Adapter<MovieHorizontal
                     mLike.set(getAdapterPosition(),true);
                 } else {Database.removeMovie(v.getContext(), movie.getMovieId());
                     mLike.set(getAdapterPosition(),false);
-                }*/
-           // });
+                }
+           });*/
 
         }
     }

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import ru.myitschool.travamd.R;
@@ -21,25 +23,24 @@ import ru.myitschool.travamd.models.Actor;
 import ru.myitschool.travamd.utils.Constants;
 
 /**
- * Created by kirillprokofev on 01.06.17.
+ * Created by Kirill Prokofyev on 01.06.17.
  */
 
 public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.AdapterViewHolder> {
     private final OnChangeFragmentListener mChangeFragmentListener;
-    private ArrayList<Actor> actorList;
-    private View view;
+    private final ArrayList<Actor> actorList;
 
     public ActorAdapter(ArrayList<Actor> actorList, OnChangeFragmentListener changeFragmentListener) {
         this.actorList = actorList;
         mChangeFragmentListener = changeFragmentListener;
     }
 
+    @NotNull
     @Override
     public ActorAdapter.AdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_actor, parent, false);
-        ActorAdapter.AdapterViewHolder viewHolder = new ActorAdapter.AdapterViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_actor, parent, false);
 
-        return viewHolder;
+        return new AdapterViewHolder(view);
     }
 
     @Override
@@ -62,9 +63,9 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.AdapterViewH
             super(view);
 
             //Элементы карточки Актера.
-            actorCard = (CardView) view.findViewById(R.id.actor_card);
-            cover_image = (ImageView) view.findViewById(R.id.actor_cover);
-            actorName = (TextView) view.findViewById(R.id.actor_name);
+            actorCard = view.findViewById(R.id.actor_card);
+            cover_image = view.findViewById(R.id.actor_cover);
+            actorName = view.findViewById(R.id.actor_name);
         }
 
         public void bind(final Actor actor) {
