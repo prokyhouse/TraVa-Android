@@ -23,7 +23,7 @@ Swift, Java, C#-разработчик, дизайнер, Middle Project manager
 
 
 ## О проекте
-<https://play-lh.googleusercontent.com/iu4ToTkaqYQs1fjCR3eltWIXS0Pud9f8h-3jkCBcWF2SVhh8MRfd-nRhA3q556_PVQ=s360" alt="[logo]" align="left" width="150"/>
+<img src="https://play-lh.googleusercontent.com/iu4ToTkaqYQs1fjCR3eltWIXS0Pud9f8h-3jkCBcWF2SVhh8MRfd-nRhA3q556_PVQ=s360" alt="[logo]" align="left" width="150"/>
 
     В далеком 2017 я очень увлекался Java и мобильной разработкой. 
     Так, в рамках моего проекта, родился сервис "TraVa" - Android приложение для любителей кино и сериалов, 
