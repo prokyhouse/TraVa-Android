@@ -32,9 +32,12 @@ Swift, Java, C#-разработчик, дизайнер, Middle Project manager
     и я с самыми светлыми воспоминаниями делюсь с вами кодом этого проекта.
    
 ## Сроки выхода проекта.
-1.0 - 18 июн. 2017 г.
-1.0.1 - 22 июн. 2017 г.
-[1.0.2](https://play.google.com/store/apps/details?id=ru.myitschool.travamd&hl) - 28 июн. 2017 г.
+
+   1.0 - 18 июн. 2017 г.
+
+   1.0.1 - 22 июн. 2017 г.
+
+   [1.0.2](https://play.google.com/store/apps/details?id=ru.myitschool.travamd&hl) - 28 июн. 2017 г.
 
 ## Скриншоты
 
